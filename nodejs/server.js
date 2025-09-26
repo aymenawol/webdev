@@ -1,0 +1,9 @@
+const express = require('express');
+const app = express();
+const PORT = 4000;
+
+app.get('/',)
+
+app.listen(PORT, ()=>{
+    console.log(`Server has started on port ${PORT}`)
+})

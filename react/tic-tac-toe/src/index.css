@@ -1,0 +1,12 @@
+.stuff{
+    position: relative;
+    bottom: 100px;
+    margin-left: 300px;
+    font-size: 1rem;
+    position: sticky;
+}
+ul{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}

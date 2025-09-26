@@ -1,0 +1,32 @@
+body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(219, 219, 219);
+    height: 100vh;
+    justify-content: center;
+}
+
+#myH1{
+    font-size: 4em;
+   font-family: Arial, Helvetica, sans-serif;
+   color: rgb(53, 53, 53);
+   font-weight: bold;
+}
+
+#container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 5px solid;
+    border-radius: 50px;
+    background-color: white;
+    padding: 30px;
+}
+#display{
+    font-size: 5em;
+    font-family: monospace;
+    font-weight: bold;
+    text-shadow: 2px 2px 2px black;
+    margin-bottom: 5px;
+}

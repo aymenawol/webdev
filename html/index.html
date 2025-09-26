@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Zombie Shooter with Chickens</title>
+  <style>
+    body { margin: 0; overflow: hidden; background: black; }
+    #hud {
+      position: absolute; top: 10px; left: 10px;
+      color: white; font-family: sans-serif; font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+<div id="hud">Health: 100</div>
+<script src="https://cdn.jsdelivr.net/npm/three@0.159.0/build/three.min.js"></script>
+
+<script>
+/* === BASIC SETUP === */
+let scene = new THREE.Scene();
+let camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+let renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+let hud = document.getElementById("hud");
+
+let health = 100;
+let speed = 0.1;
+let zombies = [];
+let chickens = [];
+
+/* === LIGHTS === */
+let light = new THREE.DirectionalLight(0xffffff, 1);
+light.position.set(1, 1, 1).normalize();
+scene.add(light);
+
+/* === PLAYER POSITION === */
+camera.position.y = 1.5; // Eye height
+camera.position.z = 5;
+
+/* === FLOOR === */
+let floorGeo = new THREE.PlaneGeometry(100, 100);
+let floorMat = new THREE.MeshPhongMaterial({color: 0x228B22});
+let floor = new THREE.Mesh(floorGeo, floorMat);
+floor.rotation.x = -Math.PI/2;
+scene.add(floor);
+
+/* === SPAWN FUNCTIONS === */
+function spawnZombie() {
+    let geo = new THREE.BoxGeometry(1, 2, 1);
+    let mat = new THREE.MeshPhongMaterial({color: 0x880000});
+    let zombie = new THREE.Mesh(geo, mat);
+    zombie.position.set(Math.random()*40-20, 1, Math.random()*40-20);
+    scene.add(zombie);
+    zombies.push(zombie);
+}
+
+function spawnChicken() {
+    let geo = new THREE.SphereGeometry(0.5, 8, 8);
+    let mat = new THREE.MeshPhongMaterial({color: 0xffff00});
+    let chicken = new THREE.Mesh(geo, mat);
+    chicken.position.set(Math.random()*40-20, 0.5, Math.random()*40-20);
+    scene.add(chicken);
+    chickens.push(chicken);
+}
+
+/* === INITIAL SPAWN === */
+for (let i=0; i<5; i++) spawnZombie();
+for (let i=0; i<3; i++) spawnChicken();
+
+/* === MOVEMENT === */
+let keys = {};
+document.addEventListener("keydown", e => keys[e.key] = true);
+document.addEventListener("keyup", e => keys[e.key] = false);
+
+/* === MOUSE LOOK === */
+let pitch = 0, yaw = 0;
+document.body.requestPointerLock = document.body.requestPointerLock || document.body.mozRequestPointerLock;
+document.addEventListener("click", () => { document.body.requestPointerLock(); });
+document.addEventListener("mousemove", e => {
+    if (document.pointerLockElement === document.body) {
+        yaw -= e.movementX * 0.002;
+        pitch -= e.movementY * 0.002;
+        pitch = Math.max(-Math.PI/2, Math.min(Math.PI/2, pitch));
+    }
+});
+
+/* === SHOOTING === */
+document.addEventListener("mousedown", shoot);
+function shoot() {
+    let raycaster = new THREE.Raycaster(camera.position, new THREE.Vector3(0,0,-1).applyEuler(new THREE.Euler(pitch, yaw, 0)), 0, 5);
+    let intersects = raycaster.intersectObjects(zombies);
+    if (intersects.length > 0) {
+        let zombie = intersects[0].object;
+        scene.remove(zombie);
+        zombies = zombies.filter(z => z !== zombie);
+        spawnZombie(); // respawn new one
+    }
+}
+
+/* === GAME LOOP === */
+function animate() {
+    requestAnimationFrame(animate);
+
+    // Movement
+    let forward = new THREE.Vector3(Math.sin(yaw), 0, Math.cos(yaw));
+    let right = new THREE.Vector3(Math.cos(yaw), 0, -Math.sin(yaw));
+
+    if (keys["w"]) camera.position.addScaledVector(forward, -speed);
+    if (keys["s"]) camera.position.addScaledVector(forward, speed);
+    if (keys["a"]) camera.position.addScaledVector(right, -speed);
+    if (keys["d"]) camera.position.addScaledVector(right, speed);
+
+    // Apply camera rotation
+    camera.rotation.x = pitch;
+    camera.rotation.y = yaw;
+
+    // Zombie AI
+    zombies.forEach(z => {
+        let dir = camera.position.clone().sub(z.position).setY(0).normalize();
+        z.position.addScaledVector(dir, 0.02); // move toward player
+        // Damage if close
+        if (z.position.distanceTo(camera.position) < 1.5) {
+            health -= 0.1;
+            if (health < 0) health = 0;
+        }
+    });
+
+    // Collect chickens
+    chickens.forEach(c => {
+        if (c.position.distanceTo(camera.position) < 1) {
+            health = Math.min(100, health + 20);
+            scene.remove(c);
+            chickens = chickens.filter(ch => ch !== c);
+            spawnChicken();
+        }
+    });
+
+    hud.textContent = "Health: " + health.toFixed(0);
+
+    renderer.render(scene, camera);
+}
+animate();
+</script>
+</body>
+</html>

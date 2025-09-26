@@ -1,0 +1,22 @@
+*{
+   margin: 0;
+}
+.container{
+   display: flex;
+   
+   gap: 20px;
+   justify-content: center;
+   height: 100vh;
+   align-items: center;
+}
+h6{
+   text-align: center;
+}
+
+.all,.low,.high{
+   border: 2px solid rgb(204, 204, 204);
+   border-radius: 10px;
+   background-color: rgb(240, 255, 240);
+   padding: 15px;
+   box-shadow: 5px 5px 5px rgb(180, 180, 180);
+}
