@@ -6,14 +6,11 @@ function MyComponent() {
 
   return (
     <div className='text-slate-900 min-h-screen relative text-sm sm:text-base'>
-      <header className=' text-white font-bold text-2xl  flex 
-      justify-between bg-blue-600 p-8 
-      rounded-full m-10 sticky top-3 border-2 border-blue-900
-      max-w-prose'>
-        <h1>Auckland Maths Tutoring</h1>
-        <button>Book a session</button>
+      <header className='flex justify-between gap-8 p-8 max-w-[1000] m-auto'>
+        <h1 className='text-2xl sm:text-3xl md:text-4xl'>Auckland Maths Tutoring</h1>
+        <button className='hover:bg-blue-500 hover:text-white ease-in'>Book a session</button>
         <div>
-          <button>Book a session</button>
+          <button className='hover:bg-blue-500 hover:text-white ease-in'>Book a session</button>
         </div>
       </header>
 
