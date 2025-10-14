@@ -7,32 +7,32 @@ function MyComponent() {
   return (
     <div className='text-slate-900 min-h-screen relative text-sm sm:text-base'>
       <header className='flex justify-between gap-8 p-8 max-w-[1000] m-auto'>
-        <h1 className='text-2xl sm:text-3xl md:text-4xl'>Auckland Maths Tutoring</h1>
-        <button className='hover:bg-blue-500 hover:text-white ease-in'>Book a session</button>
-        <div>
-          <button className='hover:bg-blue-500 hover:text-white ease-in'>Book a session</button>
+        <h1 className='font-bold text-2xl sm:text-3xl md:text-4xl'>Auckland Maths Tutoring</h1>
+        <button className='opacity-0 pointer-events-none rounded-full p-5 cursor-pointer hover:bg-blue-500 hover:text-white ease-in'>Book a session</button>
+        <div className='fixed top-8 right-8'>
+          <button className='bg-blue-300 rounded-full p-5 cursor-pointer hover:bg-blue-500 hover:text-white'>Book a session</button>
         </div>
       </header>
 
-      <main>
+      <main className='flex flex-col'>
         {/* Hero Section */}
-        <section id="hero">
-          <div>
-            <h2>Achievement Into Excellence</h2>
-            <h4>and beyond</h4>
+        <section id="hero" className='flex flex-col gap-8 px-8 py-16 sm:py-20 md:py-24 max-w-[1000px] mx-auto'>
+          <div className='text-center font-medium flex flex-col items-center gap-2'>
+            <h2 className='text-6xl sm:text-7xl md:text-8xl'>Achievement Into Excellence</h2>
+            <h4 className='text-4xl sm:text-5xl md:txt-6xl'>and beyond</h4>
           </div>
-          <p>
-            <span>Book a one-on-one private maths lesson</span> with James, a
+          <p className='text-center max-w-[600px] w-full mx-auto'>
+            <span className='font-semibold'>Book a one-on-one private maths lesson</span> with James, a
             qualified Engineer and Math Teacher with over 13 years of tutoring
             experience.
           </p>
-          <div>
-            <div>NCEA IB &amp; Cambridge</div>
-            <div>Years 5 - 13</div>
-            <div>In-person &amp; Online</div>
+          <div className='flex items-center gap-4 flex-wrap justify-center'>
+            <div className='rounded-full sm:py-2 font-bold text-blue-400 bg-gray-100 hover:bg-gray-200 px-3'>NCEA IB &amp; Cambridge</div>
+            <div className='rounded-full sm:py-2 font-bold text-blue-400 bg-gray-100 hover:bg-gray-200 px-3 py-2'>Years 5 - 13</div>
+            <div className='rounded-full sm:py-2 font-bold text-blue-400 bg-gray-100 hover:bg-gray-200 px-3 py-2'>In-person &amp; Online</div>
           </div>
-          <div>
-            <button>What I teach</button>
+          <div className='grid grid-cols-2 gap-4 '>
+            <button className='border-2 border-blue-400 bg-gray-100'>What I teach</button>
             <button>Book a session</button>
           </div>
           <div>
