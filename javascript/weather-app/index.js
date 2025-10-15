@@ -1,7 +1,11 @@
+// Import configuration - you need to create config.js from config.example.js
+// See README.md for setup instructions
+import config from './config.js';
+
 const weatherForm = document.querySelector(".weatherForm");
 const cityInput = document.querySelector(".cityInput");
 const card = document.querySelector(".card");
-const apiKey = "35322c58ae612bf48e58fc1e39f790dc";
+const apiKey = config.apiKey;
 
 weatherForm.addEventListener("submit", async event => {
     event.preventDefault();
